@@ -22,6 +22,8 @@ app.use(express.methodOverride());
 app.use(app.router);
   app.use(require('stylus').middleware(__dirname + '/public'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/bootstrap', express.static(__dirname + '/bower_components/bootstrap/dist'))
+app.use('/jquery', express.static(__dirname + '/bower_components/jquery/dist'))
 
 // development only
 if ('development' == app.get('env')) {
