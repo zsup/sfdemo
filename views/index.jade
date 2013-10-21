@@ -1,5 +1,8 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .container
+    img#logo(src="/images/spark-white.png")
+    #led.button.btn.btn-spark.btn-alizarian.btn-block Toggle LED
+    #buzzer.button.btn.btn-spark.btn-amethyst.btn-block Toggle buzzer
+    #vibrate.button.btn.btn-spark.btn-turquoise.btn-block Toggle vibrate

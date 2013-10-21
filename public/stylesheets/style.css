@@ -1,7 +1,45 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px "Proxima Nova", "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: #2c3e50;
 }
-a {
-  color: #00b7ff;
+#logo {
+  width: 190px;
+  height: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  display: block;
+}
+.container .btn-spark {
+  border-radius: 100px;
+  color: #fff;
+  border: none;
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: 300;
+}
+.btn-spark:active {
+  box-shadow: 0 2px 2px rgba(0,0,0,0.2) inset;
+}
+.btn-alizarian {
+  background: #e74c3c;
+  color: #fff;
+}
+.btn-alizarian:hover {
+  background: #cf2b1a;
+  color: #fff;
+}
+.btn-amethyst {
+  background: #9b59b6;
+}
+.btn-amethyst:hover {
+  background: #7e4297;
+  color: #fff;
+}
+.btn-turquoise {
+  background: #1abc9c;
+}
+.btn-turquoise:hover {
+  background: #15967d;
+  color: #fff;
 }
