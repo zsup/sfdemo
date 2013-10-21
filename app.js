@@ -7,7 +7,8 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , request = require('request');
 
 var app = express();
 
@@ -23,7 +24,48 @@ app.use(app.router);
   app.use(require('stylus').middleware(__dirname + '/public'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-console.log(app.get('port'));
+// Spark stuff
+var key = process.env.SPARK_API_KEY;
+var domain = 'https://api.sprk.io/'
+var path = 'v1/devices/'
+var device = 'sfdemo'
+
+var led = {
+  pin: 'D0',
+  status: false
+}
+var buzzer = {
+  pin: 'D1',
+  status: false
+}
+var vibrate = {
+  pin: 'D2',
+  status: false
+}
+
+function sparkRequest(device, pin, level) {
+  request({
+    uri: domain + path + device,
+    form: {
+      'access_token': key,
+      pin: pin,
+      level: level
+    },
+    method: 'POST'
+  });
+}
+
+function toggle(component) {
+  if (component.status) {
+    sparkRequest(device, component.pin, 'LOW');
+    component.status = !component.status;
+  } else {
+    sparkRequest(device, component.pin, 'HIGH');
+    component.status = !component.status;
+  }
+}
+
+//setInterval(toggle(led), 1000);
 
 // development only
 if ('development' == app.get('env')) {
@@ -48,18 +90,20 @@ io.sockets.on('connection', function(socket) {
 
   socket.on('led', function(message) {
     console.log("LED");
+    toggle(led);
   });
 
   socket.on('buzzer', function(message) {
     console.log("buzzer");
+    toggle(buzzer);
   });
 
   socket.on('vibrate', function(message) {
     console.log("vibrate");
+    toggle(vibrate);
   });
 
   socket.on('message', function(message) {
     console.log(message);
   });
 });
-
