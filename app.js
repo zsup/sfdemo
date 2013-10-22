@@ -31,14 +31,17 @@ var path = 'v1/devices/'
 var device = 'sfdemo'
 
 var led = {
+  name: 'led',
   pin: 'D0',
   status: false
 }
 var buzzer = {
+  name: 'buzzer',
   pin: 'D1',
   status: false
 }
 var vibrate = {
+  name: 'vibrate',
   pin: 'D2',
   status: false
 }
@@ -57,12 +60,29 @@ function sparkRequest(device, pin, level) {
 
 function toggle(component) {
   if (component.status) {
-    sparkRequest(device, component.pin, 'LOW');
+    var request = function() {
+      sparkRequest(device, component.pin, 'LOW');
+    }
+    request();
+    setTimeout(request, 400);
+    setTimeout(request, 800);
+    setTimeout(request, 1200);
     component.status = !component.status;
   } else {
-    sparkRequest(device, component.pin, 'HIGH');
+    var request = function() {
+      sparkRequest(device, component.pin, 'HIGH');
+    }
+    request();
+    setTimeout(request, 400);
+    setTimeout(request, 800);
+    setTimeout(request, 1200);
     component.status = !component.status;
   }
+  
+  io.sockets.emit('toggle', {
+    name: component.name,
+    status: component.status
+  })
 }
 
 //setInterval(toggle(led), 1000);
@@ -105,5 +125,14 @@ io.sockets.on('connection', function(socket) {
 
   socket.on('message', function(message) {
     console.log(message);
+  });
+
+  socket.on('check', function(message) {
+    console.log("Got a check");
+    socket.emit('components', [
+      led,
+      buzzer,
+      vibrate
+    ]);
   });
 });

@@ -18,6 +18,9 @@ body {
   font-size: 18px;
   font-weight: 300;
 }
+.container .btn-spark.off {
+  background: #7f8c8d;
+}
 .btn-spark:active {
   box-shadow: 0 2px 2px rgba(0,0,0,0.2) inset;
 }

@@ -1,10 +1,34 @@
 (function ($) {
   $(document).ready(
     function(){
+
       var socket = io.connect();
 
-      socket.on('connection', function() {
+      socket.on('connect', function() {
         console.log("Connected");
+        socket.emit('check');
+      })
+
+      socket.on('components', function(data) {
+        data.forEach(function(component) {
+          var button = ($('#' + component.name));
+          if(component.status) {
+            button.removeClass('off');
+          } else {
+            button.addClass('off');
+          }
+        })
+      })
+
+      socket.on('toggle', function(data) {
+        console.log(data);
+        var button = ($('#' + data.name));
+        var status = data.status;
+        if (status) {
+          button.removeClass('off');
+        } else {
+          button.addClass('off');
+        }
       })
 
       $('#led').on('click', function(event) {
